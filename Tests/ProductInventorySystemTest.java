@@ -125,5 +125,21 @@ public class ProductInventorySystemTest {
         assertEquals(10, manager.getProducts().get(1).getStockQuantity()); // Stock 10 second
     }
 
+    @Test
+    public void testProductWithZeroStock() {
+        products = new ArrayList<>();
+        manager = new OrderManager(products);
+
+        Product zeroStockProduct = ProductFactory.createProduct("electronics", "Tablet", 0, 300);
+        products.add(zeroStockProduct);
+
+        products.add(ProductFactory.createProduct("electronics", "Phone", 5, 250)); // Total price: 250 + 15% tax
+
+        manager.sortProducts();
+
+        assertEquals("Phone", manager.getProducts().get(0).getName());  
+        assertEquals("Tablet", manager.getProducts().get(1).getName());  
+    }
+
         
 }
