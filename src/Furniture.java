@@ -1,3 +1,4 @@
+package src;
 public class Furniture extends Product {
     private static final double TAX_RATE = 0.08;
 

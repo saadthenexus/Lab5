@@ -1,3 +1,4 @@
+package src;
 public class Electronics extends Product {
     private static final double TAX_RATE = 0.15;
 

@@ -2,10 +2,15 @@ package Tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import src.OrderManager;
+import src.Product;
+import src.ProductFactory;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
+
 
 public class ProductInventorySystemTest {
 
@@ -23,17 +28,39 @@ public class ProductInventorySystemTest {
         products.add(ProductFactory.createProduct("furniture", "Table", 15, 200));
         products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500));
         products.add(ProductFactory.createProduct("clothing", "Jacket", 25, 80));
-        products.add(ProductFactory.createProduct("furniture", "Sofa", 8, 600));
         products.add(ProductFactory.createProduct("electronics", "Headphones", 100, 150));
 
         manager = new OrderManager(products);
     }
 
     @Test
-    public void testSortingByNameWhenPriceEqual() {
-        products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500)); 
+    public void testSortingByTotalPrice() {
         manager.sortProducts();
-        assertEquals("Camera", manager.getProducts().get(3).name); 
+        assertEquals("T-shirt", manager.getProducts().get(0).getName()); 
+        assertEquals("Jeans", manager.getProducts().get(1).getName());
+    }
+
+    @Test
+    public void testLargeQuantityOfProducts() {
+        for (int i = 0; i < 1000; i++) {
+            products.add(ProductFactory.createProduct("electronics", "Phone" + i, i, 800));
+        }
+        manager.sortProducts();
+        assertEquals("Phone10", manager.getProducts().get(10).getName());  
+    }
+
+    @Test
+    public void testSortingByNameWhenPriceEqual() {
+        products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500)); // Same price as existing Camera
+        manager.sortProducts();
+        assertEquals("Chair", manager.getProducts().get(3).getName());  // Alphabetical sorting
+    }
+
+    @Test
+    public void testSortingByStockWhenNameAndPriceEqual() {
+        products.add(ProductFactory.createProduct("electronics", "Camera", 1, 500));  // Same name and price
+        manager.sortProducts();
+        assertEquals(20, manager.getProducts().get(3).getStockQuantity());  // Lower stock quantity comes first
     }
 
 }
