@@ -18,16 +18,16 @@ public class ProductInventorySystemTest {
     @BeforeEach
     public void setUp() {
         products = new ArrayList<>();
-        products.add(ProductFactory.createProduct("electronics", "Laptop", 10, 1000));  // Total price: 1150
-        products.add(ProductFactory.createProduct("clothing", "Jeans", 50, 40));  // Total price: 44
-        products.add(ProductFactory.createProduct("furniture", "Chair", 20, 150));  // Total price: 162
-        products.add(ProductFactory.createProduct("electronics", "Phone", 30, 800));  // Total price: 920
-        products.add(ProductFactory.createProduct("clothing", "T-shirt", 100, 20));  // Total price: 22
-        products.add(ProductFactory.createProduct("furniture", "Table", 15, 200));  // Total price: 216
-        products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500));  // Total price: 575
-        products.add(ProductFactory.createProduct("clothing", "Jacket", 25, 80));  // Total price: 88
-        products.add(ProductFactory.createProduct("furniture", "Sofa", 8, 600));  // Total price: 648
-        products.add(ProductFactory.createProduct("electronics", "Headphones", 100, 150));  // Total price: 172.5
+        products.add(ProductFactory.createProduct("electronics", "Laptop", 10, 1000));  
+        products.add(ProductFactory.createProduct("clothing", "Jeans", 50, 40));  
+        products.add(ProductFactory.createProduct("furniture", "Chair", 20, 150));  
+        products.add(ProductFactory.createProduct("electronics", "Phone", 30, 800)); 
+        products.add(ProductFactory.createProduct("clothing", "T-shirt", 100, 20));  
+        products.add(ProductFactory.createProduct("furniture", "Table", 15, 200));
+        products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500));  
+        products.add(ProductFactory.createProduct("clothing", "Jacket", 25, 80));  
+        products.add(ProductFactory.createProduct("furniture", "Sofa", 8, 600));  
+        products.add(ProductFactory.createProduct("electronics", "Headphones", 100, 150));  
 
         manager = new OrderManager(products);
     }
@@ -35,15 +35,15 @@ public class ProductInventorySystemTest {
     @Test
     public void testSortingByTotalPrice() {
         manager.sortProducts();
-        assertEquals("T-shirt", manager.getProducts().get(0).getName());  // T-shirt has the lowest total price (22)
-        assertEquals("Jeans", manager.getProducts().get(1).getName());  // Jeans has the second lowest price (44)
-        assertEquals("Jacket", manager.getProducts().get(2).getName());  // Total price 88
+        assertEquals("T-shirt", manager.getProducts().get(0).getName()); 
+        assertEquals("Jeans", manager.getProducts().get(1).getName());  
+        assertEquals("Jacket", manager.getProducts().get(2).getName());  
     }
 
     @Test
     public void testElectronicsTotalPrice() {
         Product laptop = ProductFactory.createProduct("electronics", "Laptop", 10, 1000);
-        assertEquals(1150, laptop.calculateTotalPrice(), 0.01);  // 15% tax on 1000
+        assertEquals(1150, laptop.calculateTotalPrice(), 0.01);  
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ProductInventorySystemTest {
     public void testEmptyProductList() {
         OrderManager emptyManager = new OrderManager(new ArrayList<>());
         emptyManager.sortProducts();
-        assertTrue(emptyManager.getProducts().isEmpty());  // List should remain empty
+        assertTrue(emptyManager.getProducts().isEmpty()); 
     }
 
     @Test
@@ -109,6 +109,20 @@ public class ProductInventorySystemTest {
 
         assertEquals(1, manager.getProducts().get(0).getStockQuantity());  // Stock 1 first
         assertEquals(5, manager.getProducts().get(1).getStockQuantity());  // Stock 5 second
+    }
+
+    @Test
+    public void testDifferentUnitsForSameProduct() {
+        products = new ArrayList<>();
+        manager = new OrderManager(products);
+
+        products.add(ProductFactory.createProduct("electronics", "Laptop", 5, 1000));  // Stock 5
+        products.add(ProductFactory.createProduct("electronics", "Laptop", 10, 1000)); // Stock 10
+
+        manager.sortProducts();
+
+        assertEquals(5, manager.getProducts().get(0).getStockQuantity());  // Stock 5 first
+        assertEquals(10, manager.getProducts().get(1).getStockQuantity()); // Stock 10 second
     }
 
         
