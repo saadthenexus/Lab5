@@ -97,5 +97,19 @@ public class ProductInventorySystemTest {
         assertEquals("CameraB", manager.getProducts().get(1).getName());  // Alphabetically second
     }
 
+    @Test
+    public void testSortingByStockWhenNameAndPriceEqual() {
+        products = new ArrayList<>();
+        manager = new OrderManager(products);
+
+        products.add(ProductFactory.createProduct("electronics", "Camera", 5, 500));  // Stock: 5
+        products.add(ProductFactory.createProduct("electronics", "Camera", 1, 500));  // Stock: 1
+
+        manager.sortProducts();
+
+        assertEquals(1, manager.getProducts().get(0).getStockQuantity());  // Stock 1 first
+        assertEquals(5, manager.getProducts().get(1).getStockQuantity());  // Stock 5 second
+    }
+
         
 }
