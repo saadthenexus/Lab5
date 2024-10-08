@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.List;
 
 class ProductSorter {
-    public void sortProducts(List<Product> products, ProductComparator comparator) {
-        Collections.sort(products, comparator);
+    public static void sortProducts(List<Product> products) {
+        Collections.sort(products, new ProductComparator());
     }
 }
