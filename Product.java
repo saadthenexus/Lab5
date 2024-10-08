@@ -1,4 +1,4 @@
-abstract class Product implements Comparable<Product> {
+abstract class Product {
     protected String name;
     protected int stockQuantity;
     protected double unitPrice;
@@ -9,4 +9,22 @@ abstract class Product implements Comparable<Product> {
         this.unitPrice = unitPrice;
     }
 
+    public abstract double calculateTotalPrice();
+
+    public String getName() {
+        return name;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s: $%.2f (Stock: %d)", name, calculateTotalPrice(), stockQuantity);
+    }
 }
